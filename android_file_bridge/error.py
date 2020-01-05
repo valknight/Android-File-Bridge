@@ -9,3 +9,7 @@ class AdbConnectionError(Exception):
 class AdbPushError(Exception):
     """Raised when a file can't be pushed"""
     pass
+
+class AdbPullError(Exception):
+    """Raised when a file can't be pulled"""
+    pass
