@@ -25,27 +25,22 @@ class Device:
             if "failed to" in output:
                 raise AdbConnectionError(output)
             self.adb = adb.device(serial=ip_address)
-        self.current_path = "/"
         pass
 
-    def change_path(self, path):
-        self.current_path = path
-        if not(self.current_path.endswith('/')):
-            self.current_path = "{}/".format(self.current_path)
-
-    def list_path(self):
+    def list_path(self, path):
         files = []
-        for file in self.adb.sync.list(path=self.current_path):
+        for file in self.adb.sync.list(path=path):
             file_dict = fileInfoToDict(file)
-            file_dict['path'] = "{}{}".format(self.current_path, file_dict['name'])
+            file_dict['path'] = "{}{}".format(path, file_dict['name'])
             files.append(file_dict)
         return files
-    
+
     def pull(self, remote_file, local_path):
         reason = None
+
         def generate_error():
             return "Could not pull {} to {} - {}".format(remote_file, local_path, reason)
-        
+
         try:
             self.adb.sync.pull(remote_file, local_path)
             return
@@ -54,7 +49,7 @@ class Device:
         if reason is None:
             reason = "unknown error"
         raise AdbPullError(generate_error())
-    
+
     def push(self, local_file, remote_file):
         def generate_error(reason):
             return "Could not push {} to {} - {}".format(local_file, remote_file, reason)
@@ -64,7 +59,8 @@ class Device:
         if len(self.adb.sync.list(path)) == 0:
             # if len is 0, path does not exist
             # paths that exist have at least a "." and ".." entry
-            raise AdbPushError(generate_error("path {} does not exist".format(path)))
+            raise AdbPushError(generate_error(
+                "path {} does not exist".format(path)))
         try:
             self.adb.sync.push(local_file, remote_file)
         except AssertionError:
