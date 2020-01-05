@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="android-file-bridge",
-    version="0.0.1",
+    version="0.0.2",
     author="Vallerie Knight",
     author_email="val@valknight.xyz",
     description="Provides easy to use file browser, over ADB",
