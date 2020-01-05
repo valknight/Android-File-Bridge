@@ -1,0 +1,9 @@
+# python trash
+__pycache__/
+.pyc
+dist/
+venv/
+build/
+
+# IDE folders
+.vscode/
