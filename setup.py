@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="android_file_bridge-valknight", # Replace with your own username
+    name="android-file-bridge",
     version="0.0.1",
     author="Vallerie Knight",
     author_email="val@valknight.xyz",
